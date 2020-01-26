@@ -1,18 +1,15 @@
 import setuptools
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
-
 setuptools.setup(
     name="hello-kjmerf",
-    version="0.0.5",
+    version="0.0.6",
     author="Kevin Merfeld",
     author_email="kevinjmerfeld@gmail.com",
     description="A package that says hello to kjmerf",
-    long_description=long_description,
+    long_description='This package says hello to kjmerf!',
     long_description_content_type="text/markdown",
     url="https://github.com/kjmerf/hello_kjmerf",
-    download_url="https://github.com/kjmerf/hello_kjmerf/archive/v_0_0_5.tar.gz",
+    download_url="https://github.com/kjmerf/hello_kjmerf/archive/v_0_0_6.tar.gz",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
