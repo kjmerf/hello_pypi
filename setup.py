@@ -5,14 +5,14 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="hello-kjmerf",
-    version="0.0.2",
+    version="0.0.5",
     author="Kevin Merfeld",
     author_email="kevinjmerfeld@gmail.com",
     description="A package that says hello to kjmerf",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/kjmerf/hello_kjmerf",
-    download_url="https://github.com/kjmerf/hello_kjmerf/archive/v_0_0_1.tar.gz",
+    download_url="https://github.com/kjmerf/hello_kjmerf/archive/v_0_0_5.tar.gz",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
