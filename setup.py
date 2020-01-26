@@ -12,6 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/kjmerf/hello_kjmerf",
+    download_url="https://github.com/kjmerf/hello_kjmerf/archive/v_01.tar.gz",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
