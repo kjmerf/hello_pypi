@@ -1,11 +1,14 @@
 import setuptools
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+with open("README.md", "r") as f:
+    long_description = f.read()
+
+with open("version.txt") as f:
+    version = f.read()
 
 setuptools.setup(
     name="hello-kjmerf",
-    version="0.0.8",
+    version=version,
     author="Kevin Merfeld",
     author_email="kevinjmerfeld@gmail.com",
     description="A package that says hello to kjmerf",
