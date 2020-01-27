@@ -1,22 +1,68 @@
-import setuptools
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+:copyright: (c) 2017 by Lev Lazinskiy
+:license: MIT, see LICENSE for more details.
+"""
+import os
+import sys
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+from setuptools import setup
+from setuptools.command.install import install
 
-setuptools.setup(
+# circleci.py version
+VERSION = "1.1.1"
+
+
+def readme():
+    """print long description"""
+    with open('README.rst') as f:
+        return f.read()
+
+
+class VerifyVersionCommand(install):
+    """Custom command to verify that the git tag matches our version"""
+    description = 'verify that the git tag matches our version'
+
+    def run(self):
+        tag = os.getenv('CIRCLE_TAG')
+
+        if tag != VERSION:
+            info = "Git tag: {0} does not match the version of this app: {1}".format(
+                tag, VERSION
+            )
+            sys.exit(info)
+
+
+setup(
     name="hello-kjmerf",
-    version="0.0.7",
+    version=VERSION,
+    description="A package that says hello to kjmerf",
+    long_description=readme(),
+    url="https://github.com/kjmerf/hello_kjmerf",
     author="Kevin Merfeld",
     author_email="kevinjmerfeld@gmail.com",
-    description="A package that says hello to kjmerf",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="https://github.com/kjmerf/hello_kjmerf",
-    packages=setuptools.find_packages(),
+    license="MIT",
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Developers",
+        "Intended Audience :: System Administrators",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "Topic :: Software Development :: Build Tools",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: Internet",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3 :: Only",
     ],
-    python_requires='>=3.6',
+    keywords='circleci ci cd api sdk',
+    packages=['circleci'],
+    install_requires=[
+        'requests==2.18.4',
+    ],
+    python_requires='>=3',
+    cmdclass={
+        'verify': VerifyVersionCommand,
+    }
 )

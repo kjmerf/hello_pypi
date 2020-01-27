@@ -1,55 +1,136 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
-version: 2
+version: 2.1
+workflows:
+  build_and_deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      - test-python-install:
+          version: "3.4"
+          requires:
+            - build
+      - test-python-install:
+          version: "3.5"
+          requires:
+            - build
+      - test-python-install:
+          version: "3.6"
+          requires:
+            - build
+      - test-python-install:
+          version: "3.7"
+          requires:
+            - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.1
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
-
+      - image: circleci/python:3.6
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
+          key: v1-dependency-cache-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
       - run:
-          name: install dependencies
+          name: install python dependencies
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
-
+            python setup.py sdist
+            python setup.py bdist_wheel
       - save_cache:
+          key: v1-dependency-cache-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
           paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
-
-      # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
+            - "venv"
       - run:
           name: run tests
           command: |
             . venv/bin/activate
             pytest
-
       - store_artifacts:
-          path: test-reports
-          destination: test-reports
+          path: htmlcov/
+  test-python-install:
+    parameters:
+      version:
+        type: string
+        default: latest
+    docker:
+      - image: circleci/python:<< parameters.version >>
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-dependency-cache-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+      - run:
+          name: install python dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            make dev
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+          paths:
+            - "venv"
+      - run:
+          name: run tests
+          command: |
+            . venv/bin/activate
+            make test
+            codecov
+      - store_artifacts:
+          path: htmlcov/
+      - run:
+          name: Smoke Test Install
+          command: |
+            python --version
+            sudo pip3 install circleci
+  integration:
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - run: echo "It works!"
+      - run: echo $RUN_EXTRA_TESTS
+  deploy:
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-dependency-cache-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+      - run:
+          name: install python dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            make dev
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+          paths:
+            - "venv"
+      - run:
+          name: verify git tag vs. version
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            python setup.py verify
+      - run:
+          name: init .pypirc
+          command: |
+            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "username = levlaz" >> ~/.pypirc
+            echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+      - run:
+          name: create packages
+          command: |
+            make package
+      - run:
+          name: upload to pypi
+          command: |
+            . venv/bin/activate
+            twine upload dist/*
