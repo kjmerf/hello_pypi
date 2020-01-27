@@ -5,7 +5,7 @@ function test(){
   pytest
 }
 
-function deploy(){
+function setup(){
   echo "installing dependencies..."
   python3 -m pip install --user --upgrade setuptools wheel
 
