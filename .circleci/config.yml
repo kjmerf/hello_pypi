@@ -42,7 +42,7 @@ jobs:
           name: init .pypirc
           command: |
             echo -e "[pypi]" >> ~/.pypirc
-            echo -e "username = levlaz" >> ~/.pypirc
+            echo -e "username = kjmerf" >> ~/.pypirc
             echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
 
       - run:
@@ -50,7 +50,7 @@ jobs:
           command: |
             python setup.py sdist
             python setup.py bdist_wheel
-            
+
       - run:
           name: upload to pypi
           command: |
