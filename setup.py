@@ -3,12 +3,9 @@ import setuptools
 with open("README.md", "r") as f:
     long_description = f.read()
 
-with open("version.txt") as f:
-    version = f.read()
-
 setuptools.setup(
     name="hello-kjmerf",
-    version=version,
+    version="1.1.4",
     author="Kevin Merfeld",
     author_email="kevinjmerfeld@gmail.com",
     description="A package that says hello to kjmerf",

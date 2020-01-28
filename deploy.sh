@@ -1,63 +1,64 @@
 #! /usr/bin/env bash
 
+set -e
+
 function test(){
   echo "running tests..."
   pytest
 }
 
-function setup(){
+function create_venv(){
+  env=$1
+
+  echo "creating virtual environment..."
+  rm -rf $env
+  python3 -m venv $env
+  source ./$env/bin/activate
+
   echo "installing dependencies..."
-  python3 -m pip install --user --upgrade setuptools wheel
+  pip install wheel
+
+  echo "removing previous distributions.."
+  rm -rf dist
 
   echo "creating distribution files..."
   python3 setup.py sdist bdist_wheel
 
   echo "installing more dependencies..."
-  python3 -m pip install --user --upgrade twine
+  pip install twine
+}
+
+function destroy_venv(){
+  env=$1
+
+  echo "destroying virtual environment..."
+  deactivate
+  rm -rf $env
 }
 
 function deploy_to_test_pypi(){
-  version=$1
-  echo "deploying to test pypi"
+  create_venv test_pypi_venv
+
+  echo "deploying to test pypi..."
   python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
-  echo "validing deployment..."
-  rm -rf test_env
-  python3 -m venv test_env
-  source ./test_env/bin/activate
-  pip install -i https://test.pypi.org/simple/ hello-kjmerf==$version
-  deactivate
-  rm -rf test_env
-
-  echo "deployment to test pypi succeeded!"
+  destroy_venv test_pypi_venv
 }
 
 function deploy_to_pypi(){
-  version=$1
-  echo "deploying to pypi"
+  create_venv pypi_venv
+
+  echo "deploying to pypi..."
   twine upload dist/*
 
-  echo "validing deployment..."
-  rm -rf test_env
-  python3 -m venv test_env
-  source ./test_env/bin/activate
-  pip install hello-kjmerf==$version
-  deactivate
-  rm -rf test_env
-
-  echo "deployment to test pypi succeeded!"
-}
-
-function install(){
-
+  destroy_venv pypi_venv
 }
 
 main(){
     test
-    setup
-    version=$(cat version.txt)
-    deploy_to_test_pypi $version
-    deploy_to_pypi $version
+    deploy_to_test_pypi
+    deploy_to_pypi
+    echo "deployment to pypi succeeded!"
 }
 
 main
