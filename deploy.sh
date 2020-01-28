@@ -16,6 +16,7 @@ function create_venv(){
   source ./$env/bin/activate
 
   echo "installing dependencies..."
+  python3 -m pip install --upgrade pip
   pip install wheel
 
   echo "removing previous distributions.."
