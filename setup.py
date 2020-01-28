@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setuptools.setup(
     name="hello-kjmerf",
-    version="1.1.6",
+    version="1.1.7",
     author="Kevin Merfeld",
     author_email="kevinjmerfeld@gmail.com",
     description="A package that says hello to kjmerf",
