@@ -50,7 +50,7 @@ jobs:
           command: |
             python setup.py sdist
             python setup.py bdist_wheel
-      -run:
+      - run:
           name: say something
           command: echo "-----------Oh Yeah!!------------------------------"
 
