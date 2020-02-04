@@ -50,6 +50,9 @@ jobs:
           command: |
             python setup.py sdist
             python setup.py bdist_wheel
+      -run:
+          name: say something
+          command: echo "-----------Oh Yeah!!------------------------------"
 
       #- run:
       #    name: upload to pypi
