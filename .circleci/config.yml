@@ -51,10 +51,11 @@ jobs:
             python setup.py sdist
             python setup.py bdist_wheel
       
-      - run
+      - run:
           name: show me the files!
           command: |
               pwd
+              ls
               
       - run:
          name: say something if master
