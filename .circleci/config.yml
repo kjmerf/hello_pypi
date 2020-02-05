@@ -55,7 +55,8 @@ jobs:
           name: show me the files!
           command: |
               pwd
-              ls
+              ls > test.txt
+              cat test.txt
               
       - run:
          name: say something if master
