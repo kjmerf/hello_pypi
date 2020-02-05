@@ -4,4 +4,4 @@ I made it to test deployments to PyPI using CircleCI.
 
 Check it out! https://pypi.org/project/hello-kjmerf/
 
-Ben is here to say hello to CircleCI also!
+Don't forget the [CircleCI reference](https://circleci.com/docs/2.0/configuration-reference)
