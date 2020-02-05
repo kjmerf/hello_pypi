@@ -54,9 +54,7 @@ jobs:
       - run
           name: show me the files!
           command: |
-              echo pwd
-              ls > test.txt
-              cat test.txt
+              pwd
               
       - run:
          name: say something if master
