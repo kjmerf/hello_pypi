@@ -54,7 +54,7 @@ jobs:
       - run
           name: show me the files!
           command: |
-              pwd
+              echo pwd
               ls > test.txt
               cat test.txt
               
