@@ -51,9 +51,12 @@ jobs:
             python setup.py sdist
             python setup.py bdist_wheel
       - run:
-          name: say something
-          command: echo "-----------Oh Yeah!!------------------------------"
-
+         name: say something if master
+         command: |
+             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+               echo "I sure hope this is the master branch!" 
+             fi
+          
       #- run:
       #    name: upload to pypi
       #    command: |
