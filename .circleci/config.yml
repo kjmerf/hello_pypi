@@ -12,8 +12,14 @@ jobs:
 
     steps:
       - checkout
-
-      # Download and cache dependencies
+      
+      - run:
+          name: see what we have
+          command: |
+              ls
+              ls ~/repo
+              ls ~/repo/src
+              
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum ".circleci/requirements.txt" }}
@@ -23,27 +29,22 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            #python3 -m venv venv
-            #. venv/bin/activate
             sudo pip install -r .circleci/requirements.txt
 
       - save_cache:
           paths:
-            - ./venv
           key: v1-dependencies-{{ checksum ".circleci/requirements.txt" }}
           
       - run:
           name: Run linter
           working_directory: ~/repo/src
           command: |
-              #. venv/bin/activate
               mkdir -p test-reports/flake8
               flake8 . --output-file=test-reports/flake8/flake8.txt
 
       - run:
           name: run tests
           command: |
-            #. venv/bin/activate
             pytest tests/
 
       - run:
@@ -58,6 +59,7 @@ jobs:
           command: |
             python setup.py sdist
             python setup.py bdist_wheel
+            
       - run:
          name: say something if master
          command: |
