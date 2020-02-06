@@ -37,7 +37,7 @@ jobs:
           
       - run:
           name: Run linter
-          working_directory: ~/repo/src
+          #working_directory: ~/repo/src
           command: |
               pwd
               mkdir -p test-reports/flake8
