@@ -32,8 +32,9 @@ jobs:
             sudo pip install -r .circleci/requirements.txt
 
       - save_cache:
-          paths:
           key: v1-dependencies-{{ checksum ".circleci/requirements.txt" }}
+          paths:
+            - ~/.cache
           
       - run:
           name: Run linter
