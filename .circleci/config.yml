@@ -39,11 +39,7 @@ jobs:
           name: Run linter
           #working_directory: ~/repo/src
           command: |
-              pwd
-              mkdir -p test-reports/flake8
-              ls
-              flake8 . --output-file=test-reports/flake8/flake8.txt
-              head test-reports/flake8/flake8.txt
+              flake8 hello_kjmerf
 
       - run:
           name: run tests
