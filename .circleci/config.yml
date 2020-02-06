@@ -70,8 +70,10 @@ jobs:
                pwd
              fi
           
-      #- run:
-      #    name: upload to pypi
-      #    command: |
-      #      . venv/bin/activate
-      #      twine upload dist/*
+      - deploy:
+          name: upload to pypi
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "circle-ci" ]; then
+              sudo pip install twine
+              twine upload dist/*
+            fi
