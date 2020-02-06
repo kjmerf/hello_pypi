@@ -73,7 +73,7 @@ jobs:
       - deploy:
           name: upload to pypi
           command: |
-            if [ "${CIRCLE_BRANCH}" == "circle-ci" ]; then
+            if [ "${CIRCLE_BRANCH}" == "not-master" ]; then
               sudo pip install twine
               twine upload dist/*
             fi
