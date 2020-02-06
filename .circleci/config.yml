@@ -18,7 +18,6 @@ jobs:
           command: |
               ls
               ls ~/repo
-              ls ~/repo/src
               
       - restore_cache:
           keys:
