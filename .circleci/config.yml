@@ -15,11 +15,12 @@ jobs:
       
       - run:
           name: See if we have .cache
-          command: ls ~
+          command: ls ~ -la
           
       - run:
           name: See if flake8 is installed
           command: |
+              echo 'If empty then there is no flake8'
               if command -v flake8; then
                   command -v flake8;
               fi
@@ -32,7 +33,7 @@ jobs:
             
       - run:
           name: See if we have .cache again
-          command: ls ~
+          command: ls ~ -la
 
       - run:
           name: install dependencies
@@ -42,6 +43,7 @@ jobs:
       - run:
           name: See if flake8 is installed now
           command:  |
+              echo 'If empty then there is no flake8'
               if command -v flake8; then
                   command -v flake8;
               fi
