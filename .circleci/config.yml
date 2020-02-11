@@ -58,6 +58,13 @@ jobs:
           key: v1-dependencies-{{ checksum ".circleci/requirements.txt" }}
           paths:
             - ~/.cache
+            
+      - run:
+          name: See if we have .cache after saving
+          command: |
+              pwd
+              ls /home/circleci -la
+              ls ~
           
       - run:
           name: Run linter
