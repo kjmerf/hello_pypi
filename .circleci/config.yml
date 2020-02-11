@@ -19,7 +19,7 @@ jobs:
           
       - run:
           name: See if flake8 is installed
-          command: which flake8
+          command: command -v flake8
               
       - restore_cache:
           keys:
