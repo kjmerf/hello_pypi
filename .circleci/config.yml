@@ -19,7 +19,10 @@ jobs:
           
       - run:
           name: See if flake8 is installed
-          command: command -v flake8
+          command: |
+              if command -v flake8; then
+                  command -v flake8;
+              fi
               
       - restore_cache:
           keys:
@@ -38,7 +41,10 @@ jobs:
             
       - run:
           name: See if flake8 is installed now
-          command: which flake8
+          command:  |
+              if command -v flake8; then
+                  command -v flake8;
+              fi
 
       - save_cache:
           key: v1-dependencies-{{ checksum ".circleci/requirements.txt" }}
