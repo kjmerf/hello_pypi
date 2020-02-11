@@ -14,21 +14,31 @@ jobs:
       - checkout
       
       - run:
-          name: see what we have
-          command: |
-              ls
-              ls ~/repo
+          name: See if we have .cache
+          command: ls ~
+          
+      - run:
+          name: See if flake8 is installed
+          command: which flake8
               
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum ".circleci/requirements.txt" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
+            
+      - run:
+          name: See if we have .cache again
+          command: ls ~
 
       - run:
           name: install dependencies
           command: |
             sudo pip install -r .circleci/requirements.txt
+            
+      - run:
+          name: See if flake8 is installed now
+          command: which flake8
 
       - save_cache:
           key: v1-dependencies-{{ checksum ".circleci/requirements.txt" }}
