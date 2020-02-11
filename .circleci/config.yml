@@ -15,7 +15,10 @@ jobs:
       
       - run:
           name: See if we have .cache
-          command: ls ~ -la
+          command: |
+              pwd
+              ls /home/circleci -la
+              ls ~
           
       - run:
           name: See if flake8 is installed
@@ -33,7 +36,10 @@ jobs:
             
       - run:
           name: See if we have .cache again
-          command: ls ~ -la
+          command: |
+              pwd
+              ls /home/circleci -la
+              ls ~ -la
 
       - run:
           name: install dependencies
