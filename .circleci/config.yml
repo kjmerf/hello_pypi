@@ -98,9 +98,9 @@ jobs:
          command: |
              export use_testpypi_var=$(echo "${CIRCLE_BRANCH}"_TESTPYPI | tr '-' '_')
              echo "Variable to set as 'true' to turn on TestPyPi deployment is $use_testpypi_var"
-             echo "The Value of the variable is $not_master_TESTPYPI"
+             echo "The Value of the actual environment variable is $not_master_TESTPYPI"
              export response=$(($use_testpypi_var))
-             echo Response is "${response}"
+             echo "The value of the evaluated string is $response"
              if [ "${response}" == "true" ]; then
                echo "Uploading to TestPyPi"
                twine upload --repository-url https://test.pypi.org/legacy/ dist/*
