@@ -100,7 +100,8 @@ jobs:
              echo "Variable to set as 'true' to turn on TestPyPi deployment is $use_testpypi"
              echo $not_master_TESTPYPI
              echo $(( $use_testpypi ))
-             if [ $(( $use_testpypi )) == "true" ]; then
+             if [ "$(( $use_testpypi ))" == "true" ]; then
+               echo "Uploading to TestPyPi"
                twine upload --repository-url https://test.pypi.org/legacy/ dist/*
              fi
           
