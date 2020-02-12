@@ -94,11 +94,12 @@ jobs:
             python setup.py bdist_wheel
             
       - run:
-         name: say something if master
+         name: upload to testPyPi
          command: |
-             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-               echo "I sure hope this is the master branch!"
-               pwd
+             export use_testpypi=$(echo "${CIRCLE_BRANCH}"_TESTPYPI | tr '-' '_')
+             echo "Variable to set as 'true' to turn on TestPyPi deployment is $use_testpypi"
+             if [ $(( $use_testpypi )) == "true" ]; then
+               twine upload --repository-url https://test.pypi.org/legacy/ dist/*
              fi
           
       - deploy:
