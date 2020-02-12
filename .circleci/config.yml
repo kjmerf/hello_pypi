@@ -96,11 +96,11 @@ jobs:
       - run:
          name: upload to testPyPi
          command: |
-             export use_testpypi=$(echo "${CIRCLE_BRANCH}"_TESTPYPI | tr '-' '_')
+             export use_testpypi_var=$(echo "${CIRCLE_BRANCH}"_TESTPYPI | tr '-' '_')
              echo "Variable to set as 'true' to turn on TestPyPi deployment is $use_testpypi"
              echo $not_master_TESTPYPI
-             echo $(( $use_testpypi ))
-             if [ "$(( $use_testpypi ))" == "true" ]; then
+             export response = $(( $use_testpypi_var ))
+             if [ "${response}" == "true" ]; then
                echo "Uploading to TestPyPi"
                twine upload --repository-url https://test.pypi.org/legacy/ dist/*
              fi
