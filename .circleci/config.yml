@@ -42,7 +42,7 @@ jobs:
           name: init .pypirc
           command: |
             echo -e "[pypi]" >> ~/.pypirc
-            echo -e "username = kjmerf" >> ~/.pypirc
+            echo -e "username = $PYPI_USER" >> ~/.pypirc
             echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
 
       - run:
@@ -50,13 +50,13 @@ jobs:
           command: |
             python setup.py sdist
             python setup.py bdist_wheel
-      
+
       - run:
           name: show me the files!
           command: |
               pwd
               ls
-              
+
       - run:
          name: say something if master
          command: |
@@ -64,7 +64,7 @@ jobs:
                echo "I sure hope this is the master branch!"
                pwd
              fi
-          
+
       #- run:
       #    name: upload to pypi
       #    command: |
