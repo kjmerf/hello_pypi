@@ -1,16 +1,11 @@
 import setuptools
 
-with open("README.md", "r") as f:
-    long_description = f.read()
-
 setuptools.setup(
     name="hello-kjmerf",
-    version="2.0.3",
+    version="2.0.4",
     author="Kevin Merfeld",
     author_email="kevinjmerfeld@gmail.com",
     description="A package that says hello to kjmerf",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
     url="https://github.com/kjmerf/hello_kjmerf",
     packages=setuptools.find_packages(),
     classifiers=[
