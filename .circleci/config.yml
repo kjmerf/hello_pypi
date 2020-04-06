@@ -52,20 +52,6 @@ jobs:
             python setup.py bdist_wheel
 
       - run:
-          name: show me the files!
-          command: |
-              pwd
-              ls
-
-      - run:
-         name: say something if master
-         command: |
-             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-               echo "I sure hope this is the master branch!"
-               pwd
-             fi
-
-      - run:
          name: upload to pypi
          command: |
            . venv/bin/activate
