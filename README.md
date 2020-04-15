@@ -1,4 +1,4 @@
-# hello pypi
+# hello kjmerf
 
 This package says hello to kjmerf!
 
